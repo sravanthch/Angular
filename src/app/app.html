@@ -1,0 +1,386 @@
+<!-- Top Sticky Mode Toggle Header -->
+<header class="mode-header" [class.beginner]="mode() === 'beginner'" [class.pro]="mode() === 'professional'">
+  @if (mode() === 'beginner') {
+    <h1>🐣 MY FIRST COOL ANGULAR WEBSITE 🐣</h1>
+    <button class="theme-toggle-btn beginner-active" (click)="toggleMode()">
+      🚀 CLICK HERE TO ACTIVATE PRO MODE!!! 🚀
+    </button>
+  } @else {
+    <div class="pro-logo-area">
+      <span class="pro-logo-badge">Angular 19+</span>
+      <h1 class="pro-logo-text">Aether<span>UI</span></h1>
+    </div>
+    <button class="theme-toggle-btn pro-active" (click)="toggleMode()">
+      🐣 Switch to Beginner Mode
+    </button>
+  }
+</header>
+
+<!-- Main App Wrapper -->
+<main class="app-wrapper" [class.beginner-theme]="mode() === 'beginner'" [class.pro-theme]="mode() === 'professional'">
+  
+  <!-- ================= BEGINNER VIEW ================= -->
+  @if (mode() === 'beginner') {
+    <div class="beginner-container">
+      
+      <!-- Scrolling Marquee -->
+      <marquee scrollamount="6" class="beginner-marquee">
+        *** WELCOME TO SRAVANTH'S COOL ANGULAR SITE!!! *** YOU ARE VISITOR NUMBER #004,281 *** PLEASE SIGN MY GUESTBOOK BELOW!!! ***
+      </marquee>
+
+      <!-- Center Title -->
+      <div class="beginner-hero">
+        <img src="https://angular.dev/assets/images/press-kit/angular_wordmark_gradient.png" class="beginner-logo" alt="Angular Logo" width="300">
+        <h2 class="rainbow-text">~~~ Under Construction ~~~</h2>
+        <p class="blink">Best viewed in Internet Explorer 6.0 at 800x600 resolution!</p>
+      </div>
+
+      <hr class="rainbow-hr">
+
+      <!-- Columns Layout (Classic Beginner CSS layout using floating boxes or standard tables) -->
+      <div class="beginner-grid">
+        
+        <!-- Counter Box -->
+        <section class="beginner-box counter-box">
+          <h3 class="box-title">!!! INTERACTIVE COUNTER !!!</h3>
+          <p class="box-desc">This uses state-of-the-art Angular SIGNALS to change numbers in real-time without refreshing the page! Wow!</p>
+          
+          <div class="counter-display">
+            {{ counter() }}
+          </div>
+
+          <div class="button-row">
+            <button class="beg-btn add-btn" (click)="increment()">ADD (+1)</button>
+            <button class="beg-btn sub-btn" (click)="decrement()">SUBTRACT (-1)</button>
+          </div>
+          <div class="button-row">
+            <button class="beg-btn reset-btn" (click)="resetCounter()">RESET TO 10</button>
+          </div>
+        </section>
+
+        <!-- Todo List Box -->
+        <section class="beginner-box list-box">
+          <h3 class="box-title">My List of Chores (To-Do List)</h3>
+          
+          <div class="list-input-area">
+            <input type="text" [(ngModel)]="newTaskText" placeholder="type chores here..." class="beg-input">
+            <button class="beg-btn submit-btn" (click)="addTask()">ADD ITEM!</button>
+          </div>
+
+          <ul class="beginner-list">
+            @for (task of todoList(); track task.id) {
+              <li [class.done]="task.completed">
+                <input type="checkbox" [checked]="task.completed" (change)="toggleTask(task.id)">
+                <span class="task-text">{{ task.text }}</span>
+                <button class="beg-btn-sm" (click)="deleteTask(task.id)">[X] Delete</button>
+              </li>
+            } @empty {
+              <li class="empty-msg">No chores left to do! Let's play games!</li>
+            }
+          </ul>
+        </section>
+
+        <!-- Guestbook Form Box -->
+        <section class="beginner-box guestbook-box">
+          <h3 class="box-title">Sign My Guestbook!</h3>
+          
+          @if (!isSubmitted()) {
+            <form class="beg-form" (submit)="$event.preventDefault(); submitForm()">
+              <div class="form-group">
+                <label>Your Cool Name:</label>
+                <input type="text" [(ngModel)]="formName" name="name" required placeholder="Name here..." class="beg-input">
+              </div>
+
+              <div class="form-group">
+                <label>Email Address:</label>
+                <input type="email" [(ngModel)]="formEmail" name="email" required placeholder="Email here..." class="beg-input">
+              </div>
+
+              <div class="form-group">
+                <label>How cool is this site? (1-5 stars):</label>
+                <select [(ngModel)]="formRating" name="rating" class="beg-select">
+                  <option [value]="5">⭐⭐⭐⭐⭐ (Super Ultra Cool)</option>
+                  <option [value]="4">⭐⭐⭐⭐ (Very Cool)</option>
+                  <option [value]="3">⭐⭐⭐ (Average Cool)</option>
+                  <option [value]="2">⭐⭐ (Not very cool)</option>
+                  <option [value]="1">⭐ (Uncool)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Write me a message:</label>
+                <textarea [(ngModel)]="formFeedback" name="feedback" placeholder="Write message here..." class="beg-textarea"></textarea>
+              </div>
+
+              <button type="submit" class="beg-btn submit-btn">SUBMIT GUESTBOOK SIGNATURE!</button>
+            </form>
+          } @else {
+            <div class="beg-success">
+              <h4>THANK YOU FOR SIGNING!!!</h4>
+              <p><strong>Name:</strong> {{ formName() }}</p>
+              <p><strong>Email:</strong> {{ formEmail() }}</p>
+              <p><strong>Rating:</strong> {{ formRating() }} / 5 stars</p>
+              <p><strong>Message:</strong> "{{ formFeedback() }}"</p>
+              <button class="beg-btn reset-btn" (click)="resetForm()">Sign Again!</button>
+            </div>
+          }
+        </section>
+
+      </div>
+
+      <!-- Classic Visitor Counter Badge -->
+      <footer class="beginner-footer">
+        <p>Created by Sravanth using Angular. Built in 2026. All rights reserved.</p>
+        <div class="visitor-counter">
+          <span>V</span><span>I</span><span>S</span><span>I</span><span>T</span><span>O</span><span>R</span>
+          <span class="digits">0</span><span class="digits">0</span><span class="digits">4</span>
+          <span class="digits">2</span><span class="digits">8</span><span class="digits">1</span>
+        </div>
+        <div>
+          <img src="https://images.squarespace-cdn.com/content/v1/53610de2e4b025b68997a3eb/1454592070381-8R7T3X6J8TIV2EX8E1N7/image-asset.gif" alt="Construction GIF" width="80" style="margin-top: 10px;">
+        </div>
+      </footer>
+
+    </div>
+  }
+
+  <!-- ================= PROFESSIONAL VIEW ================= -->
+  @else {
+    <div class="pro-container">
+      
+      <!-- Top Overview Dashboard Info -->
+      <div class="pro-dashboard-header">
+        <div class="header-titles">
+          <h2>Dashboard Overview</h2>
+          <p class="subtitle">Real-time telemetry and component state tracking powered by Angular Signals.</p>
+        </div>
+        <div class="header-stats-pill">
+          <span class="pill-dot animated"></span>
+          <span class="pill-text">Telemetry Active</span>
+        </div>
+      </div>
+
+      <!-- Main Dashboard Grid -->
+      <div class="pro-grid">
+        
+        <!-- Card 1: Counter Telemetry -->
+        <div class="pro-card counter-card">
+          <div class="card-glow"></div>
+          <div class="card-header">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+            </div>
+            <h3>Signal Counter</h3>
+          </div>
+
+          <div class="counter-display-wrapper">
+            <div class="circle-glow"></div>
+            <div class="circle-counter">
+              <span class="number">{{ counter() }}</span>
+              <span class="label">Total Clicks</span>
+            </div>
+          </div>
+
+          <div class="pro-btn-group">
+            <button class="pro-btn primary-btn" (click)="increment()">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="16" height="16">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+              Increment
+            </button>
+            <button class="pro-btn secondary-btn" (click)="decrement()">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" width="16" height="16">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+              </svg>
+              Decrement
+            </button>
+          </div>
+          <button class="pro-btn-text" (click)="resetCounter()">Reset to baseline (10)</button>
+        </div>
+
+        <!-- Card 2: Interactive Task Planner -->
+        <div class="pro-card planner-card">
+          <div class="card-glow"></div>
+          <div class="card-header">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.03 0 1.9.693 2.166 1.638m-7.377 12.408.097.007a.75.75 0 0 0 .749-.68l.456-5.023a.75.75 0 0 0-1.492-.135l-.456 5.023a.75.75 0 0 0 .646.807ZM17.25 9.75a.75.75 0 0 0-.75.75v5.25a.75.75 0 0 0 1.5 0v-5.25a.75.75 0 0 0-.75-.75Z" />
+              </svg>
+            </div>
+            <h3>Smart Planner</h3>
+          </div>
+
+          <div class="planner-form">
+            <div class="pro-input-group">
+              <input type="text" [(ngModel)]="newTaskText" placeholder="Write a new task..." (keydown.enter)="addTask()">
+              <button (click)="addTask()">Add</button>
+            </div>
+          </div>
+
+          <div class="pro-list-container">
+            @for (task of todoList(); track task.id) {
+              <div class="pro-task-item" [class.completed]="task.completed">
+                <label class="custom-checkbox">
+                  <input type="checkbox" [checked]="task.completed" (change)="toggleTask(task.id)">
+                  <span class="checkmark">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                    </svg>
+                  </span>
+                </label>
+                <span class="task-label">{{ task.text }}</span>
+                <button class="delete-btn" (click)="deleteTask(task.id)" title="Delete Task">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                  </svg>
+                </button>
+              </div>
+            } @empty {
+              <div class="empty-state">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="32" height="32">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                <p>All tasks completed for today.</p>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Card 3: Metrics & Analytics -->
+        <div class="pro-card stats-card">
+          <div class="card-glow"></div>
+          <div class="card-header">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
+              </svg>
+            </div>
+            <h3>System Metrics</h3>
+          </div>
+
+          <div class="metrics-grid">
+            <div class="metric-circle-box">
+              <svg viewBox="0 0 36 36" class="circular-chart">
+                <path class="circle-bg"
+                  d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <path class="circle"
+                  [attr.stroke-dasharray]="completionPercentage() + ', 100'"
+                  d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <text x="18" y="20.35" class="percentage">{{ completionPercentage() }}%</text>
+              </svg>
+              <span class="metric-label">Task Completion Rate</span>
+            </div>
+
+            <div class="metric-stats">
+              <div class="stat-row">
+                <span class="stat-label">Pending Chores:</span>
+                <span class="stat-value text-cyan">{{ totalCount() - completedCount() }}</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">Completed Tasks:</span>
+                <span class="stat-value text-pink">{{ completedCount() }}</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">Telemetry Count:</span>
+                <span class="stat-value text-violet">{{ counter() }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="progress-bar-wrapper">
+            <div class="progress-bar-header">
+              <span>Overall Progress</span>
+              <span>{{ completionPercentage() }}%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" [style.width.%]="completionPercentage()"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Styled Glassmorphic Form -->
+        <div class="pro-card feedback-card">
+          <div class="card-glow"></div>
+          <div class="card-header">
+            <div class="card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379L12 21l3.12-3.14a48.242 48.242 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+              </svg>
+            </div>
+            <h3>Feedback Station</h3>
+          </div>
+
+          @if (!isSubmitted()) {
+            <form class="pro-form" (submit)="$event.preventDefault(); submitForm()">
+              <div class="pro-input-field">
+                <input type="text" [(ngModel)]="formName" name="name" required placeholder=" ">
+                <label>Your Name</label>
+              </div>
+
+              <div class="pro-input-field">
+                <input type="email" [(ngModel)]="formEmail" name="email" required placeholder=" ">
+                <label>Email Address</label>
+              </div>
+
+              <div class="rating-selector">
+                <span class="rating-label">Experience Rating:</span>
+                <div class="star-rating">
+                  @for (star of [1, 2, 3, 4, 5]; track star) {
+                    <button type="button" class="star-btn" [class.filled]="formRating() >= star" (click)="formRating.set(star)">
+                      ★
+                    </button>
+                  }
+                </div>
+              </div>
+
+              <div class="pro-input-field">
+                <textarea [(ngModel)]="formFeedback" name="feedback" required placeholder=" " rows="2"></textarea>
+                <label>Comments / Suggestions</label>
+              </div>
+
+              <button type="submit" class="pro-submit-btn" [disabled]="!formName() || !formEmail()">
+                Submit Feedback
+              </button>
+            </form>
+          } @else {
+            <div class="pro-success-state">
+              <div class="success-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+              </div>
+              <h4>Submission Received</h4>
+              <p class="success-message">Thank you for evaluating AetherUI. Your telemetry profile and feedback have been logged.</p>
+              
+              <div class="success-details">
+                <div class="detail-row"><span>User:</span> <strong>{{ formName() }}</strong></div>
+                <div class="detail-row"><span>Rating:</span> <strong>{{ formRating() }} / 5 Stars</strong></div>
+              </div>
+
+              <button class="pro-btn secondary-btn reset-btn" (click)="resetForm()">
+                Reset Form
+              </button>
+            </div>
+          }
+        </div>
+
+      </div>
+
+      <!-- Professional Glassmorphic Footer -->
+      <footer class="pro-footer">
+        <p>AetherUI Framework Dashboard &copy; 2026. Built with Angular Signals &amp; Vanilla CSS.</p>
+      </footer>
+
+    </div>
+  }
+
+</main>
