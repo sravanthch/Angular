@@ -12,6 +12,16 @@
   align-items: center;
 }
 
+.local-time {
+  font-size: 13px;
+  margin-right: 12px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: inherit;
+  font-weight: 600;
+}
+
 /* ==========================================
    BEGINNER THEME STYLES (🐣)
 ========================================== */

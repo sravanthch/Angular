@@ -65,6 +65,10 @@ export class App {
   public audioMuted = signal<boolean>(this.getSavedMuted());
   public newTaskText = signal('');
 
+  // Live local time display (updates every second)
+  public currentTime = signal(new Date().toLocaleString());
+  private _timeIntervalId: any = null;
+
   // Task list computations
   public completedCount = computed(() => this.todoList().filter(t => t.completed).length);
   public totalCount = computed(() => this.todoList().length);
@@ -79,6 +83,17 @@ export class App {
     const list = this.todoList();
     return list.length > 0 && list.every(t => t.completed);
   });
+
+  constructor() {
+    this._timeIntervalId = setInterval(() => {
+      this.currentTime.set(new Date().toLocaleString());
+    }, 1000);
+
+    // Ensure interval cleared on unload
+    if (typeof window !== 'undefined') {
+      window.addEventListener('beforeunload', () => clearInterval(this._timeIntervalId));
+    }
+  }
 
   // Simple Form State
   public formName = signal('');

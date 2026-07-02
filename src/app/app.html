@@ -3,6 +3,7 @@
   @if (mode() === 'beginner') {
     <h1>🐣 MY FIRST COOL ANGULAR WEBSITE 🐣</h1>
     <div class="header-controls">
+      <div class="local-time">🕒 {{ currentTime() }}</div>
       <button class="beg-mute-btn" (click)="toggleMute()">
         @if (audioMuted()) { SOUND: OFF 🔇 } @else { SOUND: ON 🔊 }
       </button>
@@ -16,6 +17,7 @@
       <h1 class="pro-logo-text">Aether<span>UI</span></h1>
     </div>
     <div class="header-controls">
+      <div class="local-time">🕒 {{ currentTime() }}</div>
       <button class="pro-mute-btn" (click)="toggleMute()" [attr.aria-label]="audioMuted() ? 'Unmute Audio' : 'Mute Audio'">
         @if (audioMuted()) {
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke="currentColor">
